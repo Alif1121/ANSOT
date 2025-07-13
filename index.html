@@ -5,15 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>News Card Generator</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/solaiman-lipi" rel="stylesheet">
 
   <style>
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: 'Hind Siliguri', sans-serif;
+      font-family: 'SolaimanLipi', sans-serif;
       background: linear-gradient(135deg, #eaf4ff, #ffffff);
       display: flex;
       justify-content: center;
@@ -43,7 +42,16 @@
       gap: 10px;
     }
 
-    .form-section input[type="text"],
+    .form-section textarea {
+      padding: 14px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: 'SolaimanLipi', sans-serif;
+    }
+
     .form-section input[type="file"] {
       padding: 10px;
       font-size: 15px;
@@ -66,17 +74,16 @@
       margin-top: 20px;
       width: 100%;
       min-height: 420px;
-      background: white;
+      background:#d3d3d3;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      display: none;
-      padding-top: 70px;
-      padding-bottom: 60px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
+      padding-top: 70px;
+      padding-bottom: 60px;
     }
 
     .fixed-logo {
@@ -91,19 +98,17 @@
       object-fit: contain;
       box-shadow: 0 0 6px rgba(0,0,0,0.1);
       z-index: 3;
-      transition: transform 0.3s;
     }
 
-    /* Logo পাশের ADMISSION NEWS BY SOT */
     .admission-tag {
       position: absolute;
-      top: 20px;
-      left: 75px;
-      color: #0a0b0b;
-      font-weight: 900;
-      font-family: 'Hind Siliguri', sans-serif;
-      font-size: 14px;
-      user-select: none;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #0d47a1;
+      font-size: 24px;
+      font-family: 'SolaimanLipi', sans-serif;
+      font-weight: bold;
       white-space: nowrap;
       z-index: 3;
       text-align: center;
@@ -124,41 +129,19 @@
       padding: 20px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       border: 1px solid #e0e0e0;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
       text-align: center;
       color: #1c1c1c;
-      line-height: 1.6;
+      line-height: 1.8;
       position: relative;
       z-index: 2;
-    }
-
-    .headline::before {
-      content: none;  
+      white-space: pre-line;
     }
 
     .no-image .headline {
       margin-top: 100px;
       margin-bottom: 20px;
-    }
-
-    .tag {
-      position: absolute;
-      bottom: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #e74c3c;
-      color: white;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: translateX(-50%) scale(1); }
-      50% { transform: translateX(-50%) scale(1.05); }
-      100% { transform: translateX(-50%) scale(1); }
     }
 
     .footer {
@@ -173,12 +156,10 @@
     }
 
     .footer .date {
-      font-style: normal;
       font-weight: 600;
       font-size: 16px;  
-      color: #555;
-      font-family: 'Hind Siliguri', sans-serif;
-      letter-spacing: 0.05em;
+      color: #green;
+      font-family: 'SolaimanLipi', sans-serif;
     }
 
     .footer .source a {
@@ -206,25 +187,24 @@
     }
 
     @media (max-width: 400px) {
-      .headline { font-size: 16px; }
-      .tag { font-size: 10px; }
-      .admission-tag {
-        font-size: 12px;
-        left: 65px;
-      }
-      .footer .date {
-        font-size: 14px;
-      }
+      .headline { font-size: 18px; }
+      .admission-tag { font-size: 16px; }
+      .footer .date { font-size: 14px; }
     }
   </style>
 </head>
 <body>
+  <label>Select News Type:</label>
+<select id="newsType" style="padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc;">
+  <option value="ansot">AN SOT</option>
+  <option value="soy">SOT</option>
+</select>
   <div class="container">
     <h2>📰 নিউজ কার্ড জেনারেটর</h2>
 
     <div class="form-section">
       <label>Headline:</label>
-      <input type="text" id="headlineText" placeholder="Enter headline text">
+      <textarea id="headlineText" placeholder="Enter headline text" rows="3"></textarea>
 
       <label>Upload Image (Optional):</label>
       <input type="file" id="bgImgInput" accept="image/*">
@@ -237,7 +217,7 @@
       <div class="admission-tag">ADMISSION NEWS BY SOT</div>
       <img id="bgImage" class="bg-img" src="" alt="Background"/>
       <div class="headline" id="headlineArea">Headline will appear here</div>
-      
+
       <div class="footer">
         <span class="date" id="dateArea"></span>
         <span class="source"><a href="https://t.me/Study_on_Telegram" target="_blank">@Study_on_Telegram</a></span>
@@ -246,57 +226,75 @@
 
     <button onclick="downloadCard()" id="downloadBtn">⬇️ Download Card</button>
   </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
-    function readFile(inputElement, callback) {
-      const file = inputElement.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          callback(e.target.result);
-        };
-        reader.readAsDataURL(file);
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+  function readFile(inputElement, callback) {
+    const file = inputElement.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        callback(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      callback(null);
+    }
+  }
+
+  function generateCard() {
+    const headline = document.getElementById("headlineText").value;
+    const newsType = document.getElementById("newsType").value;
+    const bgImage = document.getElementById("bgImgInput");
+    const logo = document.querySelector(".fixed-logo");
+    const tag = document.querySelector(".admission-tag");
+    const card = document.getElementById("cardPreview");
+    const headlineArea = document.getElementById("headlineArea");
+
+    // Headline with line breaks
+    headlineArea.innerHTML = headline.replace(/\n/g, "<br>") || "No headline given";
+
+    // Set date
+    const today = new Date();
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    document.getElementById("dateArea").textContent = today.toLocaleDateString('en-US', options);
+
+    // Set logo and tag based on dropdown
+    if (newsType === "ansot") {
+      logo.src = "ansot.jpg";
+      tag.textContent = "ADMISSION NEWS BY SOT";
+    } else if (newsType === "soy") {
+      logo.src = "soy.jpg";
+      tag.textContent = "STUDY ON TELEGRAM";
+    }
+
+    // Read background image
+    readFile(bgImage, function(bgDataUrl) {
+      const bgImgTag = document.getElementById("bgImage");
+      if (bgDataUrl) {
+        bgImgTag.src = bgDataUrl;
+        bgImgTag.style.display = "block";
+        card.classList.remove("no-image");
       } else {
-        callback(null);
+        bgImgTag.style.display = "none";
+        card.classList.add("no-image");
       }
-    }
 
-    function generateCard() {
-      const headline = document.getElementById("headlineText").value;
-      const bgImage = document.getElementById("bgImage");
-      const card = document.getElementById("cardPreview");
+      card.style.display = "flex";
+      document.getElementById("downloadBtn").style.display = "block";
+    });
+  }
 
-      document.getElementById("headlineArea").textContent = headline || "No headline given";
-
-      const today = new Date();
-      const options = { day: 'numeric', month: 'long', year: 'numeric' };
-      document.getElementById("dateArea").textContent = today.toLocaleDateString('en-US', options);
-
-      readFile(document.getElementById("bgImgInput"), function(bgDataUrl) {
-        if (bgDataUrl) {
-          bgImage.src = bgDataUrl;
-          bgImage.style.display = "block";
-          card.classList.remove("no-image");
-        } else {
-          bgImage.style.display = "none";
-          card.classList.add("no-image");
-        }
-
-        card.style.display = "flex";
-        document.getElementById("downloadBtn").style.display = "block";
-      });
-    }
-
-    function downloadCard() {
-      const card = document.getElementById("cardPreview");
-      html2canvas(card).then(function(canvas) {
-        const link = document.createElement("a");
-        link.download = "news_card.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      });
-    }
-  </script>
+  function downloadCard() {
+    const card = document.getElementById("cardPreview");
+    html2canvas(card).then(function(canvas) {
+      const link = document.createElement("a");
+      link.download = "news_card.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+  }
+</script>
+  
 </body>
 </html>
