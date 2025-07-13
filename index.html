@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>News Card Generator</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Hind Siliguri', sans-serif;
+      background: linear-gradient(135deg, #eaf4ff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 450px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #222;
+      margin-bottom: 20px;
+    }
+
+    .form-section {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-section input[type="text"],
+    .form-section input[type="file"] {
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .form-section button {
+      padding: 12px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .card {
+      position: relative;
+      margin-top: 20px;
+      width: 100%;
+      min-height: 420px;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: none;
+      padding-top: 70px;
+      padding-bottom: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .fixed-logo {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: white;
+      padding: 5px;
+      object-fit: contain;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+      z-index: 3;
+      transition: transform 0.3s;
+    }
+
+    /* Logo পাশের ADMISSION NEWS BY SOT */
+    .admission-tag {
+      position: absolute;
+      top: 20px;
+      left: 75px;
+      color: #0a0b0b;
+      font-weight: 900;
+      font-family: 'Hind Siliguri', sans-serif;
+      font-size: 14px;
+      user-select: none;
+      white-space: nowrap;
+      z-index: 3;
+      text-align: center;
+    }
+
+    .bg-img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      display: none;
+      margin-bottom: 10px;
+    }
+
+    .headline {
+      max-width: 90%;
+      background: linear-gradient(to right bottom, #e0f2ff, #f6fbff);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e0e0e0;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      color: #1c1c1c;
+      line-height: 1.6;
+      position: relative;
+      z-index: 2;
+    }
+
+    .headline::before {
+      content: none;  
+    }
+
+    .no-image .headline {
+      margin-top: 100px;
+      margin-bottom: 20px;
+    }
+
+    .tag {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #e74c3c;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.05); }
+      100% { transform: translateX(-50%) scale(1); }
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      padding: 0 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #444;
+    }
+
+    .footer .date {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;  
+      color: #555;
+      font-family: 'Hind Siliguri', sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    .footer .source a {
+      font-weight: bold;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    #downloadBtn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    #downloadBtn:hover {
+      background-color: #218838;
+    }
+
+    @media (max-width: 400px) {
+      .headline { font-size: 16px; }
+      .tag { font-size: 10px; }
+      .admission-tag {
+        font-size: 12px;
+        left: 65px;
+      }
+      .footer .date {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📰 নিউজ কার্ড জেনারেটর</h2>
+
+    <div class="form-section">
+      <label>Headline:</label>
+      <input type="text" id="headlineText" placeholder="Enter headline text">
+
+      <label>Upload Image (Optional):</label>
+      <input type="file" id="bgImgInput" accept="image/*">
+
+      <button onclick="generateCard()">Generate Card</button>
+    </div>
+
+    <div class="card" id="cardPreview">
+      <img src="ansot.jpg" class="fixed-logo" alt="AN SOT">
+      <div class="admission-tag">ADMISSION NEWS BY SOT</div>
+      <img id="bgImage" class="bg-img" src="" alt="Background"/>
+      <div class="headline" id="headlineArea">Headline will appear here</div>
+      
+      <div class="footer">
+        <span class="date" id="dateArea"></span>
+        <span class="source"><a href="https://t.me/Study_on_Telegram" target="_blank">@Study_on_Telegram</a></span>
+      </div>
+    </div>
+
+    <button onclick="downloadCard()" id="downloadBtn">⬇️ Download Card</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    function readFile(inputElement, callback) {
+      const file = inputElement.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          callback(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        callback(null);
+      }
+    }
+
+    function generateCard() {
+      const headline = document.getElementById("headlineText").value;
+      const bgImage = document.getElementById("bgImage");
+      const card = document.getElementById("cardPreview");
+
+      document.getElementById("headlineArea").textContent = headline || "No headline given";
+
+      const today = new Date();
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      document.getElementById("dateArea").textContent = today.toLocaleDateString('en-US', options);
+
+      readFile(document.getElementById("bgImgInput"), function(bgDataUrl) {
+        if (bgDataUrl) {
+          bgImage.src = bgDataUrl;
+          bgImage.style.display = "block";
+          card.classList.remove("no-image");
+        } else {
+          bgImage.style.display = "none";
+          card.classList.add("no-image");
+        }
+
+        card.style.display = "flex";
+        document.getElementById("downloadBtn").style.display = "block";
+      });
+    }
+
+    function downloadCard() {
+      const card = document.getElementById("cardPreview");
+      html2canvas(card).then(function(canvas) {
+        const link = document.createElement("a");
+        link.download = "news_card.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
