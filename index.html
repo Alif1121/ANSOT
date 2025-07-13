@@ -226,8 +226,8 @@
 
     <button onclick="downloadCard()" id="downloadBtn">⬇️ Download Card</button>
   </div>
-  <script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <!-- html2canvas cdn -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
   function readFile(inputElement, callback) {
     const file = inputElement.files[0];
@@ -287,14 +287,13 @@
 
   function downloadCard() {
     const card = document.getElementById("cardPreview");
-    html2canvas(card).then(function(canvas) {
+    html2canvas(card, { scale: 2 }).then(function(canvas) {
       const link = document.createElement("a");
-      link.download = "news_card.png";
-      link.href = canvas.toDataURL("image/png");
+      link.download = "news_card.jpg";
+      link.href = canvas.toDataURL("image/jpeg", 0.95); // JPG format
       link.click();
     });
   }
 </script>
-  
 </body>
 </html>
