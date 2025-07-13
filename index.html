@@ -40,21 +40,15 @@
       gap: 10px;
     }
 
-    .form-section textarea {
+    .form-section textarea,
+    .form-section input[type="file"],
+    .form-section select {
       padding: 14px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      width: 100%;
-      box-sizing: border-box;
-      font-family: 'SolaimanLipi', sans-serif;
-    }
-
-    .form-section input[type="file"] {
-      padding: 10px;
-      font-size: 15px;
+      font-size: 16px;
       border-radius: 8px;
       border: 1px solid #ccc;
+      font-family: 'SolaimanLipi', sans-serif;
+      width: 100%;
     }
 
     .form-section button {
@@ -70,9 +64,9 @@
     .card {
       position: relative;
       margin-top: 20px;
-      width: 100%;
-      min-height: 420px;
-      background:#d3d3d3;
+      width: 1080px;
+      height: 1080px;
+      background: #d3d3d3;
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
@@ -86,10 +80,10 @@
 
     .fixed-logo {
       position: absolute;
-      top: 15px;
-      left: 15px;
-      width: 48px;
-      height: 48px;
+      top: 30px;
+      left: 30px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: white;
       padding: 5px;
@@ -100,46 +94,43 @@
 
     .admission-tag {
       position: absolute;
-      top: 18px;
+      top: 35px;
       left: 50%;
       transform: translateX(-50%);
       color: #0d47a1;
-      font-size: 24px;
+      font-size: 32px;
       font-family: 'SolaimanLipi', sans-serif;
       font-weight: bold;
-      white-space: nowrap;
       z-index: 3;
       text-align: center;
     }
 
     .bg-img {
       width: 100%;
-      max-height: 220px;
-      object-fit: cover;
+      height: 400px;
+      object-fit: contain;
+      background: #fff;
       display: none;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
     .headline {
       max-width: 90%;
       background: linear-gradient(to right bottom, #e0f2ff, #f6fbff);
       border-radius: 12px;
-      padding: 20px;
+      padding: 30px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       border: 1px solid #e0e0e0;
-      font-size: 20px;
+      font-size: 28px;
       font-weight: bold;
       text-align: center;
       color: #1c1c1c;
       line-height: 1.8;
-      position: relative;
-      z-index: 2;
       white-space: pre-line;
     }
 
     .no-image .headline {
-      margin-top: 100px;
-      margin-bottom: 20px;
+      margin-top: 120px;
     }
 
     .footer {
@@ -147,22 +138,20 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      padding: 12px 20px;
+      padding: 20px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       background-color: rgba(255, 255, 255, 0.85);
-      font-size: 14px;
+      font-size: 18px;
       font-weight: 600;
       color: #333;
       border-top: 1px solid #ddd;
-      box-sizing: border-box;
     }
 
     .footer .date {
       font-weight: 600;
-      font-size: 16px;
-      font-family: 'SolaimanLipi', sans-serif;
+      font-size: 20px;
     }
 
     .footer .source a {
@@ -174,8 +163,8 @@
     #downloadBtn {
       margin-top: 15px;
       width: 100%;
-      padding: 12px;
-      font-size: 16px;
+      padding: 14px;
+      font-size: 18px;
       background-color: #28a745;
       color: white;
       border: none;
@@ -189,28 +178,28 @@
       background-color: #218838;
     }
 
-    @media (max-width: 400px) {
-      .headline { font-size: 18px; }
-      .admission-tag { font-size: 16px; }
-      .footer .date { font-size: 14px; }
+    @media (max-width: 500px) {
+      .card {
+        transform: scale(0.35);
+        transform-origin: top center;
+      }
     }
   </style>
 </head>
 <body>
 
-  <label>Select News Type:
-    <select id="newsType" style="padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc;">
-      <option value="ansot">AN SOT</option>
-      <option value="soy">SOT</option>
-    </select>
-  </label>
-
   <div class="container">
     <h2>📰 নিউজ কার্ড জেনারেটর</h2>
 
     <div class="form-section">
+      <label>Select News Type:</label>
+      <select id="newsType">
+        <option value="ansot">AN SOT</option>
+        <option value="soy">SOT</option>
+      </select>
+
       <label>Headline:</label>
-      <textarea id="headlineText" placeholder="Enter headline text" rows="3"></textarea>
+      <textarea id="headlineText" placeholder="Enter headline text" rows="4"></textarea>
 
       <label>Upload Image (Optional):</label>
       <input type="file" id="bgImgInput" accept="image/*">
@@ -219,11 +208,10 @@
     </div>
 
     <div class="card" id="cardPreview">
-      <img src="ansot.jpg" class="fixed-logo" alt="AN SOT">
+      <img src="ansot.jpg" class="fixed-logo" alt="Logo">
       <div class="admission-tag">ADMISSION NEWS BY SOT</div>
       <img id="cardBgImage" class="bg-img" src="" alt="Background"/>
       <div class="headline" id="headlineArea">Headline will appear here</div>
-
       <div class="footer">
         <span class="date" id="dateArea"></span>
         <span class="source"><a href="https://t.me/Study_on_Telegram" target="_blank">@Study_on_Telegram</a></span>
@@ -233,7 +221,6 @@
     <button onclick="downloadCard()" id="downloadBtn">⬇️ Download Card</button>
   </div>
 
-  <!-- html2canvas cdn -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     function readFile(inputElement, callback) {
@@ -266,11 +253,9 @@
 
       if(newsType === "ansot") {
         logo.src = "ansot.jpg?v=" + new Date().getTime();
-        logo.alt = "AN SOT Logo";
         tag.textContent = "ADMISSION NEWS BY SOT";
       } else if(newsType === "soy") {
         logo.src = "sot.jpg?v=" + new Date().getTime();
-        logo.alt = "SOT Logo";
         tag.textContent = "STUDY ON TELEGRAM";
       }
 
@@ -281,7 +266,6 @@
           bgImgTag.style.display = "block";
           card.classList.remove("no-image");
         } else {
-          bgImgTag.src = "";
           bgImgTag.style.display = "none";
           card.classList.add("no-image");
         }
@@ -293,9 +277,14 @@
 
     function downloadCard() {
       const card = document.getElementById("cardPreview");
-      html2canvas(card, { scale: 2 }).then(function(canvas) {
+
+      html2canvas(card, {
+        width: 1080,
+        height: 1080,
+        scale: 1
+      }).then(function(canvas) {
         const link = document.createElement("a");
-        link.download = "news_card.jpg";
+        link.download = "news_card_1080x1080.jpg";
         link.href = canvas.toDataURL("image/jpeg", 0.95);
         link.click();
       });
