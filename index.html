@@ -1,87 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>News Card Generator</title>
   <link href="https://fonts.cdnfonts.com/css/solaiman-lipi" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
-
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: 'SolaimanLipi', sans-serif;
-      background: linear-gradient(135deg, #eaf4ff, #ffffff);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      padding: 20px;
+      padding: 0;
     }
 
-    .container {
-      max-width: 450px;
-      width: 100%;
+    body {
+      font-family: 'SolaimanLipi', sans-serif;
+      background: #f4f7fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
     }
 
     h2 {
-      text-align: center;
-      color: #222;
       margin-bottom: 20px;
+      color: #222;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
     }
 
     .form-section {
-      background: white;
+      background: #0c8ad8;
+      font-weight: bold;
+      font-size: 20px;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
     }
 
-    .form-section textarea {
-      padding: 14px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
+    textarea, input[type="file"], select, button {
       width: 100%;
-      box-sizing: border-box;
+      margin-bottom: 15px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      border: 1px solid #ccc;
       font-family: 'SolaimanLipi', sans-serif;
     }
 
-    .form-section input[type="file"] {
-      padding: 10px;
-      font-size: 15px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    .form-section button {
-      padding: 12px;
-      font-size: 16px;
-      background: #007bff;
+    button {
+      background-color: #043c78;
       color: white;
-      border: none;
-      border-radius: 8px;
+      font-weight: bold;
+      font-size: 18px;
       cursor: pointer;
     }
 
-    .card {
+    .card-wrapper {
+      width: 360px;
+      aspect-ratio: 1 / 1;
       position: relative;
-      margin-top: 20px;
+      transform-origin: top left;
+      margin: 0 auto;
+    }
+
+    .card {
       width: 100%;
-      min-height: 420px;
-      background:#d3d3d3;
+      height: 100%;
+      background: #d3d3d3;
       border-radius: 16px;
-      overflow: hidden;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      padding-top: 70px;
+      padding-bottom: 60px;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding-top: 70px;
-      padding-bottom: 60px;
     }
 
     .fixed-logo {
@@ -91,10 +89,9 @@
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background: white;
+      background: rgb(36, 10, 10);
       padding: 5px;
       object-fit: contain;
-      box-shadow: 0 0 6px rgba(0,0,0,0.1);
       z-index: 3;
     }
 
@@ -104,42 +101,37 @@
       left: 50%;
       transform: translateX(-50%);
       color: #0d47a1;
-      font-size: 24px;
-      font-family: 'SolaimanLipi', sans-serif;
+      font-size: 20px;
       font-weight: bold;
-      white-space: nowrap;
       z-index: 3;
       text-align: center;
     }
 
     .bg-img {
       width: 100%;
-      max-height: 220px;
+      max-height: 200px;
       object-fit: cover;
       display: none;
-      margin-bottom: 10px;
     }
 
     .headline {
       max-width: 90%;
       background: linear-gradient(to right bottom, #e0f2ff, #f6fbff);
       border-radius: 12px;
-      padding: 20px;
+      padding: 30px 25px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       border: 1px solid #e0e0e0;
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 24px;
+      font-weight: 700;
       text-align: center;
       color: #1c1c1c;
       line-height: 1.8;
-      position: relative;
-      z-index: 2;
       white-space: pre-line;
-    }
-
-    .no-image .headline {
-      margin-top: 100px;
-      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+      z-index: 2;
     }
 
     .footer {
@@ -156,84 +148,72 @@
       font-weight: 600;
       color: #333;
       border-top: 1px solid #ddd;
-      box-sizing: border-box;
     }
 
     .footer .date {
-      font-weight: 600;
+      font-weight: bold;
       font-size: 16px;
-      font-family: 'SolaimanLipi', sans-serif;
     }
 
     .footer .source a {
-      font-weight: bold;
       color: #007bff;
       text-decoration: none;
+      font-weight: bold;
     }
 
     #downloadBtn {
-      margin-top: 15px;
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       display: none;
+      background-color: #28a745;
     }
 
-    #downloadBtn:hover {
-      background-color: #218838;
-    }
+    @media (max-width: 480px) {
+      .card-wrapper {
+        transform: scale(0.9);
+      }
 
-    @media (max-width: 400px) {
-      .headline { font-size: 18px; }
-      .admission-tag { font-size: 16px; }
-      .footer .date { font-size: 14px; }
+      .headline {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <label>Select News Type:
-    <select id="newsType" style="padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc;">
-      <option value="ansot">AN SOT</option>
-      <option value="soy">SOT</option>
-    </select>
-  </label>
+  <h2>📰 নিউজ কার্ড জেনারেটর</h2>
 
   <div class="container">
-    <h2>📰 নিউজ কার্ড জেনারেটর</h2>
-
     <div class="form-section">
-      <label>Headline:</label>
-      <textarea id="headlineText" placeholder="Enter headline text" rows="3"></textarea>
+      <label>Select News Type:</label>
+      <select id="newsType">
+        <option value="ansot">Admission News By SOT</option>
+        <option value="soy">Study On Telegram</option>
+      </select>
 
-      <label>Upload Image (Optional):</label>
+      <label>Headline:</label>
+      <textarea id="headlineText" rows="3" placeholder="হেডলাইন দিন..."></textarea>
+
+      <label>Optional Image:</label>
       <input type="file" id="bgImgInput" accept="image/*">
 
       <button onclick="generateCard()">Generate Card</button>
     </div>
 
-    <div class="card" id="cardPreview">
-      <img src="ansot.jpg" class="fixed-logo" alt="AN SOT">
-      <div class="admission-tag">ADMISSION NEWS BY SOT</div>
-      <img id="cardBgImage" class="bg-img" src="" alt="Background"/>
-      <div class="headline" id="headlineArea">Headline will appear here</div>
-
-      <div class="footer">
-        <span class="date" id="dateArea"></span>
-        <span class="source"><a href="https://t.me/Study_on_Telegram" target="_blank">@Study_on_Telegram</a></span>
+    <div class="card-wrapper" id="cardWrapper">
+      <div class="card" id="cardPreview">
+        <img src="ansot.jpg" class="fixed-logo" id="logoImg" alt="Logo">
+        <div class="admission-tag" id="tagText">ADMISSION NEWS BY SOT</div>
+        <img id="cardBgImage" class="bg-img" src="" alt="Background Image">
+        <div class="headline" id="headlineArea">হেডলাইন এখানে দেখাবে</div>
+        <div class="footer">
+          <span class="date" id="dateArea"></span>
+          <span class="source"><a href="https://t.me/Study_on_Telegram" target="_blank">@Study_on_Telegram</a></span>
+        </div>
       </div>
     </div>
 
-    <button onclick="downloadCard()" id="downloadBtn">⬇️ Download Card</button>
+    <button id="downloadBtn" onclick="downloadCard()">⬇️ Download Card</button>
   </div>
 
-  <!-- html2canvas cdn -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     function readFile(inputElement, callback) {
@@ -253,47 +233,57 @@
       const headline = document.getElementById("headlineText").value;
       const newsType = document.getElementById("newsType").value;
       const bgImage = document.getElementById("bgImgInput");
-      const logo = document.querySelector(".fixed-logo");
-      const tag = document.querySelector(".admission-tag");
-      const card = document.getElementById("cardPreview");
+      const logo = document.getElementById("logoImg");
+      const tag = document.getElementById("tagText");
       const headlineArea = document.getElementById("headlineArea");
 
-      headlineArea.innerHTML = headline.replace(/\n/g, "<br>") || "No headline given";
+      // 🧹 Clear previous content
+      headlineArea.innerHTML = "";
 
+      // 📝 Insert headline
+      headlineArea.innerHTML = headline.replace(/\n/g, "<br>") || "কোনো হেডলাইন পাওয়া যায়নি";
+
+      // 📅 Set current date
       const today = new Date();
       const options = { day: 'numeric', month: 'long', year: 'numeric' };
-      document.getElementById("dateArea").textContent = today.toLocaleDateString('en-US', options);
+      document.getElementById("dateArea").textContent = today.toLocaleDateString('bn-BD', options);
 
+      // 🔁 Logo and Tag setup
       if(newsType === "ansot") {
         logo.src = "ansot.jpg?v=" + new Date().getTime();
-        logo.alt = "AN SOT Logo";
+        logo.alt = "AN SOT";
         tag.textContent = "ADMISSION NEWS BY SOT";
-      } else if(newsType === "soy") {
+      } else {
         logo.src = "sot.jpg?v=" + new Date().getTime();
-        logo.alt = "SOT Logo";
+        logo.alt = "SOT";
         tag.textContent = "STUDY ON TELEGRAM";
       }
 
+      // 🖼️ Background image setup
       readFile(bgImage, function(bgDataUrl) {
         const bgImgTag = document.getElementById("cardBgImage");
         if (bgDataUrl) {
           bgImgTag.src = bgDataUrl;
           bgImgTag.style.display = "block";
-          card.classList.remove("no-image");
         } else {
           bgImgTag.src = "";
           bgImgTag.style.display = "none";
-          card.classList.add("no-image");
         }
 
-        card.style.display = "flex";
+        // ✅ Show download button
         document.getElementById("downloadBtn").style.display = "block";
       });
     }
 
     function downloadCard() {
       const card = document.getElementById("cardPreview");
-      html2canvas(card, { scale: 2 }).then(function(canvas) {
+
+      html2canvas(card, {
+        scale: 3,
+        width: 1080,
+        height: 1080,
+        useCORS: true
+      }).then(function(canvas) {
         const link = document.createElement("a");
         link.download = "news_card.jpg";
         link.href = canvas.toDataURL("image/jpeg", 0.95);
