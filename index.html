@@ -62,15 +62,13 @@
 
     .card-wrapper {
       width: 360px;
-      aspect-ratio: 1 / 1;
       position: relative;
-      transform-origin: top left;
       margin: 0 auto;
     }
 
     .card {
       width: 100%;
-      height: 100%;
+      aspect-ratio: 1 / 1;
       background: #d3d3d3;
       border-radius: 16px;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
@@ -80,6 +78,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      overflow: hidden;
     }
 
     .fixed-logo {
@@ -114,24 +113,26 @@
       display: none;
     }
 
+    .headline-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 20px 0;
+    }
+
     .headline {
-      max-width: 90%;
+      display: inline-block;
       background: linear-gradient(to right bottom, #e0f2ff, #f6fbff);
       border-radius: 12px;
-      padding: 30px 25px;
+      padding: 15px 20px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       border: 1px solid #e0e0e0;
       font-size: 24px;
       font-weight: 700;
       text-align: center;
       color: #1c1c1c;
-      line-height: 1.8;
-      white-space: pre-line;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 200px;
-      z-index: 2;
+      line-height: 1.4;
+      white-space: pre-wrap;
     }
 
     .footer {
@@ -203,7 +204,11 @@
         <img src="ansot.jpg" class="fixed-logo" id="logoImg" alt="Logo">
         <div class="admission-tag" id="tagText">ADMISSION NEWS BY SOT</div>
         <img id="cardBgImage" class="bg-img" src="" alt="Background Image">
-        <div class="headline" id="headlineArea">হেডলাইন এখানে দেখাবে</div>
+        
+        <div class="headline-wrapper">
+          <div class="headline" id="headlineArea">হেডলাইন এখানে দেখাবে</div>
+        </div>
+
         <div class="footer">
           <span class="date" id="dateArea"></span>
           <span class="source"><a href="https://t.me/Study_on_Telegram" target="_blank">@Study_on_Telegram</a></span>
@@ -237,18 +242,13 @@
       const tag = document.getElementById("tagText");
       const headlineArea = document.getElementById("headlineArea");
 
-      // 🧹 Clear previous content
       headlineArea.innerHTML = "";
-
-      // 📝 Insert headline
       headlineArea.innerHTML = headline.replace(/\n/g, "<br>") || "কোনো হেডলাইন পাওয়া যায়নি";
 
-      // 📅 Set current date
       const today = new Date();
       const options = { day: 'numeric', month: 'long', year: 'numeric' };
       document.getElementById("dateArea").textContent = today.toLocaleDateString('bn-BD', options);
 
-      // 🔁 Logo and Tag setup
       if(newsType === "ansot") {
         logo.src = "ansot.jpg?v=" + new Date().getTime();
         logo.alt = "AN SOT";
@@ -259,7 +259,6 @@
         tag.textContent = "STUDY ON TELEGRAM";
       }
 
-      // 🖼️ Background image setup
       readFile(bgImage, function(bgDataUrl) {
         const bgImgTag = document.getElementById("cardBgImage");
         if (bgDataUrl) {
@@ -270,7 +269,6 @@
           bgImgTag.style.display = "none";
         }
 
-        // ✅ Show download button
         document.getElementById("downloadBtn").style.display = "block";
       });
     }
@@ -280,9 +278,8 @@
 
       html2canvas(card, {
         scale: 3,
-        width: 1080,
-        height: 1080,
-        useCORS: true
+        useCORS: true,
+        backgroundColor: null
       }).then(function(canvas) {
         const link = document.createElement("a");
         link.download = "news_card.jpg";
