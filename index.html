@@ -7,14 +7,17 @@
   <style>
     * {
       box-sizing: border-box;
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
     }
+
     body {
       font-family: 'SolaimanLipi', sans-serif;
       background: #f0f0f0;
       padding: 20px;
       text-align: center;
     }
+
     .controls {
       max-width: 600px;
       margin: auto 0 30px;
@@ -23,6 +26,7 @@
       gap: 12px;
       align-items: flex-start;
     }
+
     label {
       font-weight: bold;
       margin-bottom: 4px;
@@ -30,6 +34,7 @@
       max-width: 400px;
       text-align: left;
     }
+
     input[type="file"],
     input[type="text"] {
       width: 100%;
@@ -39,9 +44,11 @@
       border-radius: 6px;
       border: 1px solid #ccc;
     }
+
     input[type="checkbox"] {
       margin-right: 8px;
     }
+
     button {
       padding: 10px 16px;
       font-size: 16px;
@@ -53,6 +60,7 @@
       max-width: 200px;
       margin-top: 10px;
     }
+
     button:hover {
       background: #0056b3;
     }
@@ -60,18 +68,19 @@
     .card {
       position: relative;
       width: 100%;
-      max-width: 1080px;
-      height: 1080px;
+      max-width: 1024px;
+      height: 1024px;
       background: white;
       margin: 0 auto;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
+
     .date {
       position: absolute;
       top: 20px;
@@ -83,43 +92,46 @@
       font-size: 16px;
       z-index: 10;
     }
+
     .header-image {
       width: 90%;
-      max-height: 45%;
+      max-height: 42%;
       object-fit: cover;
       border-radius: 12px;
-      margin-top: 70px;
+      margin-top: 60px;
     }
+
     .logo-image {
-  position: relative;
-  top: -40px; /* লোগোকে ২০ পিক্সেল উপরে সরাবে */
-  width: 160px;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 16px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.15);
-  background: white;
-  transition: top 0.3s ease;
-}
+      position: relative;
+      top: -20px;
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 14px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+      background: white;
+    }
 
     .headline {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: bold;
       text-align: center;
       line-height: 1.4;
       max-width: 90%;
-      margin-bottom: 20px;
+      margin: 10px 0 15px;
       word-break: break-word;
     }
+
     .comment-note {
       font-size: 18px;
       font-weight: bold;
       color: #444;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       display: none;
     }
+
     .footer {
-      margin-top: auto;
+      margin-top: 10px;
       width: 100%;
       background: #111;
       color: white;
@@ -130,11 +142,13 @@
       justify-content: center;
       gap: 40px;
     }
+
     .footer span {
       display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .footer i {
       font-size: 24px;
     }
@@ -143,9 +157,11 @@
       .headline {
         font-size: 20px;
       }
+
       .comment-note {
         font-size: 16px;
       }
+
       .footer {
         font-size: 16px;
         flex-direction: column;
@@ -154,7 +170,6 @@
     }
   </style>
 
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
@@ -162,8 +177,6 @@
   <div class="controls">
     <label for="headerImg">হেডার ছবি আপলোড করুন:</label>
     <input type="file" id="headerImg" accept="image/*" />
-
-    
 
     <label for="headline">হেডলাইন লিখুন:</label>
     <input type="text" id="headline" placeholder="হেডলাইন লিখুন" />
@@ -177,7 +190,6 @@
   <div class="card" id="card">
     <div class="date" id="dateBox"></div>
     <img id="headerImagePreview" class="header-image" src="" alt="Header Image" />
-   
     <img src="ansot.jpg" alt="Ansot Logo" class="logo-image" />
     <div class="headline" id="headlineBox">টাইম মেশিন আবিষ্কার করে তাকে লাগিয়ে দিলেন রংপুরের এক যুবক</div>
     <div class="comment-note" id="commentNote">বিস্তারিত কমেন্টে</div>
@@ -187,11 +199,9 @@
     </div>
   </div>
 
-  <!-- html2canvas for image download -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
   <script>
-    // Auto set date in Bengali on page load
+    // Bengali date auto insert
     window.onload = () => {
       const date = new Date().toLocaleDateString('bn-BD', {
         day: 'numeric',
@@ -217,22 +227,16 @@
         reader.readAsDataURL(headerImg);
       }
 
-      const logoImg = document.getElementById('logoImg').files[0];
-      if (logoImg) {
-        const reader = new FileReader();
-        reader.onload = e => {
-          document.getElementById('logoImagePreview').src = e.target.result;
-        };
-        reader.readAsDataURL(logoImg);
-      }
-
-      // Show/hide বিস্তারিত কমেন্টে
       document.getElementById('commentNote').style.display = showComment ? 'block' : 'none';
     }
 
     function downloadCard() {
       const card = document.getElementById('card');
-      html2canvas(card, {width:1080, height:1080}).then(canvas => {
+      html2canvas(card, {
+        width: 1024,
+        height: 1024,
+        scale: 2
+      }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'photocard.jpg';
         link.href = canvas.toDataURL('image/jpeg');
