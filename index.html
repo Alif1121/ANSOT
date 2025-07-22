@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>নিউজ ফটোকার্ড</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'SolaimanLipi', sans-serif;
@@ -20,11 +16,17 @@
 
     .controls {
       max-width: 600px;
-      margin: auto;
+      margin: 0 auto 30px;
       display: flex;
       flex-direction: column;
       gap: 12px;
       align-items: flex-start;
+    }
+
+    label {
+      font-weight: bold;
+      width: 100%;
+      text-align: left;
     }
 
     input[type="file"],
@@ -36,6 +38,10 @@
       border: 1px solid #ccc;
     }
 
+    input[type="checkbox"] {
+      margin-right: 6px;
+    }
+
     button {
       padding: 10px 16px;
       font-size: 16px;
@@ -44,6 +50,7 @@
       background: #007BFF;
       color: white;
       cursor: pointer;
+      margin-top: 8px;
     }
 
     button:hover {
@@ -56,58 +63,54 @@
       max-width: 1024px;
       height: 1024px;
       background: white;
-      margin: 30px auto;
-      border-radius: 16px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      margin: 0 auto;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
     }
 
     .date {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 12px;
+      left: 12px;
       background: white;
-      padding: 8px 14px;
+      padding: 8px 12px;
       font-weight: bold;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 16px;
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+      z-index: 10;
     }
 
     .header-image {
       width: 100%;
-      height: 320px;
+      height: 300px;
       object-fit: cover;
-      border-radius: 10px;
     }
 
     .logo-image {
       width: 100px;
       height: 100px;
       object-fit: contain;
-      border-radius: 10px;
-      background: white;
-      padding: 5px;
-      margin-top: 20px;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+      margin-top: 10px;
     }
 
     .headline {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: bold;
       text-align: center;
-      margin: 20px 30px 10px;
-      line-height: 1.5;
+      margin: 12px 20px 8px;
+      line-height: 1.4;
+      max-width: 90%;
     }
 
     .comment-note {
       font-size: 18px;
       font-weight: bold;
-      color: #444;
+      color: #222;
       margin-bottom: 10px;
       display: none;
     }
@@ -118,6 +121,7 @@
       background: #111;
       color: white;
       font-size: 18px;
+      font-weight: bold;
       padding: 12px 0;
       display: flex;
       justify-content: center;
@@ -128,37 +132,25 @@
     .footer span {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .footer i {
-      font-size: 22px;
+      font-size: 20px;
     }
 
-    @media (max-width: 768px) {
-      .card {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1 / 1;
-        padding: 12px;
-      }
-
+    @media(max-width: 768px) {
       .headline {
         font-size: 20px;
-        margin: 15px;
       }
-
-      .logo-image {
-        width: 80px;
-        height: 80px;
-      }
-
       .footer {
         font-size: 16px;
-        gap: 16px;
+        flex-direction: column;
+        gap: 12px;
       }
     }
   </style>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
@@ -190,6 +182,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
+    // তারিখ বসানো
     window.onload = () => {
       const date = new Date().toLocaleDateString('bn-BD', {
         day: 'numeric',
@@ -203,7 +196,8 @@
       const headlineInput = document.getElementById('headline').value.trim();
       const showComment = document.getElementById('showComment').checked;
 
-      document.getElementById('headlineBox').innerText = headlineInput || 'হেডলাইন লিখুন';
+      const headline = headlineInput || 'হেডলাইন লিখুন';
+      document.getElementById('headlineBox').innerText = headline;
 
       const headerImg = document.getElementById('headerImg').files[0];
       if (headerImg) {
@@ -220,15 +214,13 @@
     function downloadCard() {
       const card = document.getElementById('card');
       html2canvas(card, {
-        useCORS: true,
-        allowTaint: true,
-        scale: 3, // better quality
-        width: card.offsetWidth,
-        height: card.offsetHeight
+        width: 1024,
+        height: 1024,
+        scale: 2
       }).then(canvas => {
         const link = document.createElement('a');
-        link.download = 'news-card.jpg';
-        link.href = canvas.toDataURL('image/jpeg', 1.0);
+        link.download = 'photocard.jpg';
+        link.href = canvas.toDataURL('image/jpeg');
         link.click();
       });
     }
