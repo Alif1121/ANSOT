@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>নিউজ ফটোকার্ড</title>
 
-  <!-- Google Bengali Font -->
+  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
@@ -34,7 +34,6 @@
 
     label {
       font-weight: bold;
-      margin-bottom: 4px;
       width: 100%;
       max-width: 400px;
       text-align: left;
@@ -72,18 +71,18 @@
 
     .card {
       position: relative;
-      width: 100%;
-      max-width: 1024px;
-      height: 1024px;
+      width: 1024px;
+      max-width: 100%;
       background: white;
-      margin: 0 auto;
+      margin: auto;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
-      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
+      padding-bottom: 20px;
     }
 
     .date {
@@ -99,33 +98,48 @@
     }
 
     .header-image {
-      width: 90%;
-      max-height: 42%;
+      width: 100%;
+      height: auto;
+      max-height: 420px;
       object-fit: cover;
-      border-radius: 12px;
-      margin-top: 60px;
       display: none;
+      margin-top: 20px;
+      border-bottom: 2px solid #ccc;
+      position: relative;
+      z-index: 1;
     }
 
     .logo-image {
-      position: relative;
-      top: -20px;
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       object-fit: cover;
       border-radius: 14px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+      margin-top: 20px;
       background: white;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+      margin-top: -60px;
+      position: relative;
+      z-index: 2;
     }
 
     .headline {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: bold;
       text-align: center;
       line-height: 1.4;
       max-width: 90%;
-      margin: 10px 0 15px;
+      margin: 10px 0 6px;
       word-break: break-word;
+    }
+
+    .subheadline {
+      font-size: 18px;
+      font-weight: normal;
+      color: #444;
+      text-align: center;
+      max-width: 90%;
+      margin-bottom: 10px;
+      display: none;
     }
 
     .comment-note {
@@ -137,7 +151,6 @@
     }
 
     .footer {
-      margin-top: 10px;
       width: 100%;
       background: #111;
       color: white;
@@ -147,6 +160,8 @@
       display: flex;
       justify-content: center;
       gap: 40px;
+      flex-wrap: nowrap;
+      white-space: nowrap;
     }
 
     .footer span {
@@ -164,6 +179,10 @@
         font-size: 20px;
       }
 
+      .subheadline {
+        font-size: 16px;
+      }
+
       .comment-note {
         font-size: 16px;
       }
@@ -172,6 +191,10 @@
         font-size: 16px;
         flex-direction: column;
         gap: 12px;
+      }
+
+      .card {
+        width: 100%;
       }
     }
   </style>
@@ -185,6 +208,9 @@
     <label for="headline">হেডলাইন লিখুন:</label>
     <input type="text" id="headline" placeholder="হেডলাইন লিখুন" />
 
+    <label for="subheadline">সাবহেডলাইন (ঐচ্ছিক):</label>
+    <input type="text" id="subheadline" placeholder="সাবহেডলাইন লিখুন (ঐচ্ছিক)" />
+
     <label><input type="checkbox" id="showComment" /> বিস্তারিত কমেন্টে দেখাবো</label>
 
     <button onclick="generateCard()">Generate</button>
@@ -196,6 +222,7 @@
     <img id="headerImagePreview" class="header-image" src="" alt="Uploaded Header Image" />
     <img src="ansot.jpg" alt="Ansot Logo" class="logo-image" />
     <div class="headline" id="headlineBox">টাইম মেশিন আবিষ্কার করে তাকে লাগিয়ে দিলেন রংপুরের এক যুবক</div>
+    <div class="subheadline" id="subheadlineBox"></div>
     <div class="comment-note" id="commentNote">বিস্তারিত কমেন্টে</div>
     <div class="footer">
       <span><i class="fab fa-facebook-square"></i> /AdmissionNewsbySOT</span>
@@ -205,7 +232,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
-    // Insert today's Bengali date
     window.onload = () => {
       const date = new Date().toLocaleDateString('bn-BD', {
         day: 'numeric',
@@ -216,10 +242,21 @@
     };
 
     function generateCard() {
-      const headlineInput = document.getElementById('headline').value.trim();
+      const headline = document.getElementById('headline').value.trim() || 'হেডলাইন লিখুন';
+      const subheadline = document.getElementById('subheadline').value.trim();
       const showComment = document.getElementById('showComment').checked;
-      const headline = headlineInput || 'হেডলাইন লিখুন';
+
       document.getElementById('headlineBox').innerText = headline;
+
+      const subBox = document.getElementById('subheadlineBox');
+      if (subheadline) {
+        subBox.innerText = subheadline;
+        subBox.style.display = 'block';
+      } else {
+        subBox.style.display = 'none';
+      }
+
+      document.getElementById('commentNote').style.display = showComment ? 'block' : 'none';
 
       const headerImg = document.getElementById('headerImg').files[0];
       const preview = document.getElementById('headerImagePreview');
@@ -227,7 +264,6 @@
       if (headerImg) {
         const reader = new FileReader();
         reader.onload = e => {
-          preview.src = ''; // reset first
           preview.src = e.target.result;
           preview.style.display = 'block';
         };
@@ -236,17 +272,23 @@
         preview.style.display = 'none';
         preview.src = '';
       }
-
-      document.getElementById('commentNote').style.display = showComment ? 'block' : 'none';
     }
 
     function downloadCard() {
+      const preview = document.getElementById('headerImagePreview');
+      if (preview.style.display === 'block' && !preview.complete) {
+        preview.onload = proceedDownload;
+      } else {
+        proceedDownload();
+      }
+    }
+
+    function proceedDownload() {
       const card = document.getElementById('card');
       html2canvas(card, {
-        width: 1024,
-        height: 1024,
-        scale: 3,
-        backgroundColor: '#ffffff'
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true
       }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'photocard.jpg';
