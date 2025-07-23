@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>নিউজ ফটোকার্ড</title>
 
-  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
@@ -87,14 +86,15 @@
     }
 
     .date {
-      position: absolute;
-      top: 20px;
-      right: 20px;
       background: white;
       padding: 8px 14px;
       font-weight: bold;
       border-radius: 8px;
       font-size: 16px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      align-self: flex-end;
+      margin-right: 20px;
       z-index: 10;
     }
 
@@ -103,11 +103,9 @@
       height: auto;
       max-height: 420px;
       object-fit: cover;
-      display: none;
-      margin-top: 20px;
+      margin-top: 10px;
       border-bottom: 2px solid #ccc;
-      position: relative;
-      z-index: 1;
+      display: block;
     }
 
     .logo-image {
@@ -156,11 +154,10 @@
       color: white;
       font-size: 18px;
       font-weight: bold;
-      padding: 10px 0;
+      padding: 12px 20px;
       display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
       white-space: nowrap;
     }
 
@@ -171,7 +168,7 @@
     }
 
     .footer i {
-      font-size: 24px;
+      font-size: 20px;
     }
 
     @media(max-width: 480px) {
@@ -192,9 +189,9 @@
 
       .footer {
         font-size: 14px;
-        flex-direction: column;
-        gap: 12px;
-        padding: 8px 0;
+        flex-direction: row;
+        gap: 0;
+        padding: 10px 15px;
       }
 
       button {
@@ -228,14 +225,14 @@
 
   <div class="card" id="card">
     <div class="date" id="dateBox"></div>
-    <img id="headerImagePreview" class="header-image" src="" alt="Uploaded Header Image" />
+    <img id="headerImagePreview" class="header-image" src="placeholder.jpg" alt="Uploaded Header Image" />
     <img src="ansot.jpg" alt="Ansot Logo" class="logo-image" />
     <div class="headline" id="headlineBox">টাইম মেশিন আবিষ্কার করে তাকে লাগিয়ে দিলেন রংপুরের এক যুবক</div>
     <div class="subheadline" id="subheadlineBox"></div>
     <div class="comment-note" id="commentNote">বিস্তারিত কমেন্টে</div>
     <div class="footer">
-      <span><i class="fab fa-facebook-square"></i> /AdmissionNewsbySOT</span>
-      <span><i class="fab fa-telegram"></i> /Study_on_Telegram</span>
+      <span><i class="fab fa-facebook-square"></i> AdmissionNewsbySOT</span>
+      <span><i class="fab fa-telegram"></i> Study_on_Telegram</span>
     </div>
   </div>
 
@@ -274,12 +271,10 @@
         const reader = new FileReader();
         reader.onload = e => {
           preview.src = e.target.result;
-          preview.onload = () => preview.style.display = 'block';
         };
         reader.readAsDataURL(headerImg);
       } else {
-        preview.style.display = 'none';
-        preview.src = '';
+        preview.src = 'placeholder.jpg';
       }
     }
 
