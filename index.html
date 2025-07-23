@@ -25,11 +25,12 @@
 
     .controls {
       max-width: 600px;
-      margin: auto 0 30px;
+      margin: 0 auto 30px;
       display: flex;
       flex-direction: column;
       gap: 12px;
       align-items: flex-start;
+      padding: 0 10px;
     }
 
     label {
@@ -61,8 +62,8 @@
       background: #007BFF;
       color: white;
       cursor: pointer;
-      max-width: 200px;
-      margin-top: 10px;
+      width: 100%;
+      max-width: 400px;
     }
 
     button:hover {
@@ -114,10 +115,9 @@
       height: 100px;
       object-fit: cover;
       border-radius: 14px;
-      margin-top: 20px;
+      margin-top: -60px;
       background: white;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
-      margin-top: -60px;
       position: relative;
       z-index: 2;
     }
@@ -174,27 +174,36 @@
       font-size: 24px;
     }
 
-    @media(max-width: 768px) {
+    @media(max-width: 480px) {
       .headline {
-        font-size: 20px;
+        font-size: 18px;
       }
 
-      .subheadline {
-        font-size: 16px;
-      }
-
+      .subheadline,
       .comment-note {
-        font-size: 16px;
+        font-size: 14px;
+      }
+
+      .logo-image {
+        width: 80px;
+        height: 80px;
+        margin-top: -40px;
       }
 
       .footer {
-        font-size: 16px;
+        font-size: 14px;
         flex-direction: column;
         gap: 12px;
+        padding: 8px 0;
       }
 
-      .card {
+      button {
         width: 100%;
+        max-width: none;
+      }
+
+      .controls {
+        padding: 0 10px;
       }
     }
   </style>
@@ -265,7 +274,7 @@
         const reader = new FileReader();
         reader.onload = e => {
           preview.src = e.target.result;
-          preview.style.display = 'block';
+          preview.onload = () => preview.style.display = 'block';
         };
         reader.readAsDataURL(headerImg);
       } else {
@@ -277,7 +286,7 @@
     function downloadCard() {
       const preview = document.getElementById('headerImagePreview');
       if (preview.style.display === 'block' && !preview.complete) {
-        preview.onload = proceedDownload;
+        preview.onload = () => proceedDownload();
       } else {
         proceedDownload();
       }
@@ -286,9 +295,8 @@
     function proceedDownload() {
       const card = document.getElementById('card');
       html2canvas(card, {
-        scale: 2,
-        backgroundColor: '#ffffff',
-        useCORS: true
+        scale: window.devicePixelRatio || 2,
+        backgroundColor: '#ffffff'
       }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'photocard.jpg';
